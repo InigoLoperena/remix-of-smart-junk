@@ -5,7 +5,9 @@ const config: CapacitorConfig = {
   appName: 'Smart Junk',
   webDir: 'dist',
   server: {
-    androidScheme: 'https'
+    androidScheme: 'https',
+    url: 'https://smartjunk.store/',
+    cleartext: true
   }
 };
 
