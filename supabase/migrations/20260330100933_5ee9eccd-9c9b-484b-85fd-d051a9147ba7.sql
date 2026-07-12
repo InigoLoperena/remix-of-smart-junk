@@ -1,0 +1,1 @@
+ALTER TABLE public.pickup_requests ADD COLUMN title text NOT NULL DEFAULT '';

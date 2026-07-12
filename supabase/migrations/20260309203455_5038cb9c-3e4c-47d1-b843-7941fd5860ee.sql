@@ -1,0 +1,2 @@
+ALTER TABLE public.pickup_requests DROP CONSTRAINT pickup_requests_status_check;
+ALTER TABLE public.pickup_requests ADD CONSTRAINT pickup_requests_status_check CHECK (status = ANY (ARRAY['open'::text, 'accepted'::text, 'paid'::text, 'completed'::text, 'cancelled'::text]));

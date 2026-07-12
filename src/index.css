@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 160 30% 5%;
+    --foreground: 150 10% 93%;
+
+    --card: 160 25% 8%;
+    --card-foreground: 150 10% 93%;
+
+    --popover: 160 25% 8%;
+    --popover-foreground: 150 10% 93%;
+
+    --primary: 152 55% 40%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 160 20% 14%;
+    --secondary-foreground: 150 10% 90%;
+
+    --muted: 160 15% 12%;
+    --muted-foreground: 150 8% 55%;
+
+    --accent: 38 90% 55%;
+    --accent-foreground: 38 90% 95%;
+
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 160 15% 16%;
+    --input: 160 15% 16%;
+    --ring: 152 55% 40%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 160 30% 4%;
+    --sidebar-foreground: 150 10% 90%;
+    --sidebar-primary: 152 55% 40%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 160 25% 10%;
+    --sidebar-accent-foreground: 150 10% 90%;
+    --sidebar-border: 160 20% 12%;
+    --sidebar-ring: 152 55% 40%;
+
+    --success: 152 55% 40%;
+    --warning: 38 90% 55%;
+    --info: 210 60% 50%;
+
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+  }
+}
+
+/* Leaflet overrides */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  z-index: 0 !important;
+}
+
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 500 !important;
+}
+
+.safe-area-bottom {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+}
