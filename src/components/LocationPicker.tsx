@@ -3,6 +3,7 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { Loader2, Check, Navigation } from "lucide-react";
 import { toast } from "sonner";
+import { Geolocation } from "@capacitor/geolocation";
 
 interface LocationPickerProps {
   latitude: number | null;
@@ -25,35 +26,27 @@ const LocationPicker = ({
   const displayLabel = label || t("shareExactLocationLabel");
   const displayDesc = description || t("locationPickerDesc");
 
-  const requestLocation = () => {
-    if (!navigator.geolocation) {
-      toast.error(t("browserNoGeo"));
-      return;
-    }
-
+  const requestLocation = async () => {
     setLoading(true);
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        onLocationChange(position.coords.latitude, position.coords.longitude);
-        setLoading(false);
-        toast.success(t("locationObtained"));
-      },
-      (error) => {
-        setLoading(false);
-        switch (error.code) {
-          case error.PERMISSION_DENIED:
-            toast.error(t("permissionDenied"));
-            break;
-          case error.POSITION_UNAVAILABLE:
-            toast.error(t("positionUnavailable"));
-            break;
-          case error.TIMEOUT:
-            toast.error(t("timeout"));
-            break;
-        }
-      },
-      { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
-    );
+    try {
+      const position = await Geolocation.getCurrentPosition({
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 60000,
+      });
+      onLocationChange(position.coords.latitude, position.coords.longitude);
+      toast.success(t("locationObtained"));
+    } catch (error: any) {
+      console.error("Error getting location", error);
+      const errMsg = error.message || String(error);
+      if (errMsg.includes("denied") || errMsg.includes("permission")) {
+        toast.error(t("permissionDenied"));
+      } else {
+        toast.error(t("positionUnavailable"));
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const hasLocation = latitude !== null && longitude !== null;
