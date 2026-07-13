@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/i18n/LanguageContext";
@@ -63,13 +63,13 @@ const MyRequests = () => {
   useEffect(() => {
     setHeader({ showBack: true, backTo: "/marketplace", title: t("myRequestsTitle"), subtitle: t("myRequestsSubtitle") });
     return () => clearHeader();
-  }, [t]);
+  }, [t, setHeader, clearHeader]);
 
   useEffect(() => {
     if (!authLoading && !user) navigate("/auth");
   }, [user, authLoading, navigate]);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     if (!user) return;
     const { data } = await supabase
       .from("pickup_requests")
@@ -112,11 +112,11 @@ const MyRequests = () => {
       );
     }
     setLoading(false);
-  };
+  }, [user, t]);
 
   useEffect(() => {
     fetchData();
-  }, [user]);
+  }, [fetchData]);
 
   const handleAcceptBid = async (e: React.MouseEvent, bid: Bid) => {
     e.stopPropagation();

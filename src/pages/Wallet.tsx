@@ -27,7 +27,7 @@ const Wallet = () => {
   useEffect(() => {
     setHeader({ showBack: true, backTo: "/marketplace", title: t("myWallet") });
     return () => clearHeader();
-  }, [t]);
+  }, [t, setHeader, clearHeader]);
 
   useEffect(() => {
     if (!authLoading && !user) navigate("/auth");

@@ -41,7 +41,7 @@ const CreatePickupRequest = () => {
   useEffect(() => {
     setHeader({ showBack: true, backTo: -1, title: isEditing ? t("editPickupRequest") : t("newPickupRequest") });
     return () => clearHeader();
-  }, [isEditing, t]);
+  }, [isEditing, t, setHeader, clearHeader]);
 
   // Load existing data when editing
   useEffect(() => {
@@ -70,7 +70,7 @@ const CreatePickupRequest = () => {
       setLoadingData(false);
     };
     load();
-  }, [id, user]);
+  }, [id, user, navigate, t]);
 
   const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || !user) return;

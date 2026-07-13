@@ -34,7 +34,7 @@ const MyBids = () => {
   useEffect(() => {
     setHeader({ showBack: true, backTo: "/marketplace", title: t("myBidsTitle"), subtitle: t("myBidsSubtitle") });
     return () => clearHeader();
-  }, [t]);
+  }, [t, setHeader, clearHeader]);
 
   useEffect(() => {
     if (!authLoading && !user) navigate("/auth");

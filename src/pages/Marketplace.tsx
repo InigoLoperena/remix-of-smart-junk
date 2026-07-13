@@ -17,7 +17,7 @@ const Marketplace = () => {
   const [userLng, setUserLng] = useState<number | null>(null);
   const { clearHeader } = usePageHeader();
 
-  useEffect(() => { clearHeader(); return () => clearHeader(); }, []);
+  useEffect(() => { clearHeader(); return () => clearHeader(); }, [clearHeader]);
 
   useEffect(() => {
     if (!user) return;

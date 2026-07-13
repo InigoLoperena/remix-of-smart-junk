@@ -25,7 +25,7 @@ const Profile = () => {
   useEffect(() => {
     setHeader({ showBack: true, backTo: "/marketplace", title: t("myProfile") });
     return () => clearHeader();
-  }, [t]);
+  }, [t, setHeader, clearHeader]);
 
   useEffect(() => {
     if (!authLoading && !user) navigate("/auth");

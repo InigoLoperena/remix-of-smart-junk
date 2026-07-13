@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/i18n/LanguageContext";
@@ -92,7 +92,7 @@ const PickupRequestDetail = () => {
       setHeader({ showBack: true, backTo: -1, title: t("pickupRequestTitle") });
     }
     return () => clearHeader();
-  }, [request, t]);
+  }, [request, t, setHeader, clearHeader]);
 
   useEffect(() => {
     const payment = searchParams.get("payment");
@@ -100,7 +100,7 @@ const PickupRequestDetail = () => {
     if (payment === "cancelled") toast.info(t("paymentCancelled"));
   }, [searchParams, t]);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     if (!id) return;
     const [reqResult, bidsResult] = await Promise.all([
       supabase.from("pickup_requests").select("*").eq("id", id).single(),
@@ -134,7 +134,7 @@ const PickupRequestDetail = () => {
     setTransaction(txData);
 
     setLoading(false);
-  };
+  }, [id]);
 
   useEffect(() => {
     fetchData();
@@ -143,7 +143,7 @@ const PickupRequestDetail = () => {
       .on("postgres_changes", { event: "*", schema: "public", table: "bids", filter: `pickup_request_id=eq.${id}` }, () => fetchData())
       .subscribe();
     return () => { supabase.removeChannel(channel); };
-  }, [id, user]);
+  }, [id, fetchData]);
 
   const handlePlaceBid = async (e: React.FormEvent) => {
     e.preventDefault();

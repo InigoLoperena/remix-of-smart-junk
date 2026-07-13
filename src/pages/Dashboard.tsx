@@ -22,7 +22,7 @@ const Dashboard = () => {
   const [locationChecked, setLocationChecked] = useState(false);
   const { clearHeader } = usePageHeader();
 
-  useEffect(() => { clearHeader(); return () => clearHeader(); }, []);
+  useEffect(() => { clearHeader(); return () => clearHeader(); }, [clearHeader]);
 
   useEffect(() => {
     if (!authLoading && !user) navigate("/auth");
